@@ -1,0 +1,31 @@
+llm:
+  provider: ollama
+  ollama_base_url: http://localhost:11434
+  ollama_model: qwen3:8b
+  openai_api_key: ""
+  openai_base_url: https://api.openai.com/v1
+  openai_model: gpt-4o-mini
+  aliyun_api_key: ""
+  aliyun_model: qwen-turbo
+  temperature: 0.7
+  max_tokens: 2048
+  timeout: 60
+parser:
+  auto_detect: true
+  txt_chapter_pattern: "^(第.{1,10}章|Chapter \\d+)"
+storage:
+  data_dir: ~/.novel_knowledge_base/data
+  vector_db_type: chroma
+  graph_db_type: json
+  cache_enabled: true
+  analysis_enabled: true
+  analysis_max_chars: 8000
+  features_enabled: false
+  embedding_enabled: false
+  embedding_max_chars: 4000
+  embed_summary: true
+  embed_chapters: false
+  paragraph_enabled: true
+  paragraph_min_chars: 60
+  paragraph_semantic_enabled: false
+log_level: INFO
