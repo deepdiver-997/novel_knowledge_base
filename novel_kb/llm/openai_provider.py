@@ -6,17 +6,17 @@ class OpenAIProvider(LLMProvider):
     def __init__(self, config) -> None:
         self.config = config
 
-    def analyze_characters(self, text: str) -> AnalysisResult:
+    async def analyze_characters(self, text: str) -> AnalysisResult:
         raise NotImplementedError("OpenAIProvider is not implemented yet")
 
-    def analyze_plot(self, text: str) -> AnalysisResult:
+    async def analyze_plot(self, text: str) -> AnalysisResult:
         raise NotImplementedError("OpenAIProvider is not implemented yet")
 
-    def extract_features(self, text: str) -> AnalysisResult:
+    async def extract_features(self, text: str) -> AnalysisResult:
         raise NotImplementedError("OpenAIProvider is not implemented yet")
 
-    def generate_embedding(self, text: str) -> EmbeddingResult:
+    async def generate_embedding(self, text: str) -> EmbeddingResult:
         raise NotImplementedError("OpenAIProvider is not implemented yet")
 
-    def health_check(self) -> bool:
+    async def health_check(self) -> bool:
         return False

@@ -7,6 +7,8 @@ class AnalysisResult:
     kind: str
     content: Dict[str, Any]
     tokens_used: int = 0
+    provider_type: str | None = None
+    model_name: str | None = None
 
 
 @dataclass

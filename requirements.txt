@@ -1,3 +1,8 @@
 pyyaml
 requests
+aiohttp
 mcp
+openai
+volcengine-ark-runtime
+rank-bm25
+sentence-transformers

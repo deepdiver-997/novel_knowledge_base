@@ -9,6 +9,7 @@ setup(
         "pyyaml",
         "requests",
         "mcp",
+        "volcengine-ark-runtime",
     ],
     entry_points={
         "console_scripts": [

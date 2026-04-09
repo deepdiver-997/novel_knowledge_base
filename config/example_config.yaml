@@ -1,31 +1,67 @@
 llm:
-  provider: ollama
-  ollama_base_url: http://localhost:11434
-  ollama_model: qwen3:8b
-  openai_api_key: ""
-  openai_base_url: https://api.openai.com/v1
-  openai_model: gpt-4o-mini
-  aliyun_api_key: ""
-  aliyun_model: qwen-turbo
+  # Gateway 模式配置（所有 LLM 调用都走本地 Gateway 服务）
+  # 启用后忽略 provider/models 等其他 LLM 配置
+  use_gateway: true
+  gateway_url: "http://127.0.0.1:8747"
+  gateway_tier: "medium"  # 默认 tier: low / medium / high
+
+  # 按文本长度自动切换 tier（可选）
+  # 短文本（<=short_chars）用 tier_short，长文本（>=long_chars）用 tier_long
+  gateway_tier_short: "low"   # 可选，短文本用的 tier
+  gateway_tier_long: "high"   # 可选，长文本用的 tier
+  gateway_short_chars: 1000   # 短文本阈值（字符数）
+  gateway_long_chars: 4000    # 长文本阈值（字符数）
+
+  # 可选，覆盖 Gateway 默认的 max_tokens / temperature
+  gateway_max_tokens: 2048
+  gateway_temperature: 0.7
+
+
+
+
+  # 通用参数
   temperature: 0.7
-  max_tokens: 2048
-  timeout: 60
+  
+  # max_tokens 支持两种格式：
+  # 1. 单值格式（所有模型使用同一限制）
+  # max_tokens: 2048
+  # 2. 列表格式（对应模型列表）
+  max_tokens: [2048, 4096, 8192]  # [快速型, 中级型, 高级型]
+  
+  summary_max_tokens: 8192
+  timeout: 120
+
 parser:
   auto_detect: true
   txt_chapter_pattern: "^(第.{1,10}章|Chapter \\d+)"
+
 storage:
   data_dir: ~/.novel_knowledge_base/data
-  vector_db_type: chroma
+  vector_db_type: chroma  # chroma 或 memory（测试用）
   graph_db_type: json
   cache_enabled: true
   analysis_enabled: true
+  hierarchical_analysis_enabled: true
+  segment_min_chars: 120
+  segment_max_chars: 0
+  segment_concurrency: 10
+  segment_qps: 5.0
+  segment_retries: 3
+  segment_retry_interval: 1.0
   analysis_max_chars: 8000
+  characters_enabled: false
   features_enabled: false
-  embedding_enabled: false
-  embedding_max_chars: 4000
-  embed_summary: true
-  embed_chapters: false
+
+  # 向量数据库配置
+  embedding_enabled: false              # 是否启用向量嵌入
+  embedding_max_chars: 4000              # 嵌入时截断文本的最大长度
+  embed_summary: true                   # 嵌入全书总结
+  embed_chapters: false                # 嵌入章节原文（默认关闭，太大）
+  embed_plot_summaries: true           # 嵌入剧情总结（卷级）
+  embed_paragraphs: false               # 嵌入原文分段（默认关闭，太大）
+  paragraph_min_chars: 100              # 原文分段最小字符数
+  paragraph_max_chars: 500              # 原文分段最大字符数
   paragraph_enabled: true
-  paragraph_min_chars: 60
-  paragraph_semantic_enabled: false
+  paragraph_semantic_enabled: false     # 语义搜索原文段落
+
 log_level: INFO

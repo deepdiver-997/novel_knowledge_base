@@ -22,3 +22,11 @@ class NovelRecord:
     summary_embedding: Optional[List[float]] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
     created_at: str = ""
+
+
+@dataclass
+class NovelMetadata:
+    """轻量级小说元数据（不包含章节内容）"""
+    novel_id: str
+    title: str
+    created_at: str = ""

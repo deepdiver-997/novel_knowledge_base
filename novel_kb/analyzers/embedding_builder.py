@@ -6,4 +6,10 @@ class EmbeddingBuilder:
         self.provider = provider
 
     def build(self, text: str):
-        return self.provider.generate_embedding(text)
+        """同步方法 - 不推荐使用"""
+        import asyncio
+        return asyncio.run(self.build_async(text))
+
+    async def build_async(self, text: str):
+        """异步方法 - 推荐使用"""
+        return await self.provider.generate_embedding(text)
